@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+results/
+data/ISTD/
+data/SBU/
+data/synthetic/
+.DS_Store
