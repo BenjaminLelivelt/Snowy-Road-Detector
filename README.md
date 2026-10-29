@@ -12,6 +12,10 @@ removed (baseline: 19%). Hough lines that lie on shadow borders drop from 1,787 
 
 ![F1 by method](results/figures/f1_bars.png)
 
+![Snow examples](results/figures/snow_qualitative.jpg)
+
+More: summary figures in §3, and the result image for **every** photo in §4.
+
 ---
 
 ## 1. What is done
@@ -123,7 +127,201 @@ preliminary.
 
 ---
 
-## 4. Methods (`--method`)
+## 4. All results (every image)
+
+Every photo we ran, side by side: **input | color-only baseline | ours (full + contour vote)**.
+Green = kept as object edge, red = labeled shadow edge. F1 = shadow-edge F1 for that one image
+(snow: against the DRAFT labels). Regenerate with `python make_gallery.py`.
+
+### ISTD test images (12 examples, real ground truth)
+
+**100-1**: baseline F1 0.80, ours F1 0.81
+
+![ISTD 100-1](results/gallery/istd_100-1.jpg)
+
+**103-2**: baseline F1 0.53, ours F1 0.83
+
+![ISTD 103-2](results/gallery/istd_103-2.jpg)
+
+**106-3**: baseline F1 0.89, ours F1 0.94
+
+![ISTD 106-3](results/gallery/istd_106-3.jpg)
+
+**110-3**: baseline F1 0.91, ours F1 0.97
+
+![ISTD 110-3](results/gallery/istd_110-3.jpg)
+
+**111-12**: baseline F1 0.49, ours F1 0.90
+
+![ISTD 111-12](results/gallery/istd_111-12.jpg)
+
+**114-1**: baseline F1 0.09, ours F1 0.26
+
+![ISTD 114-1](results/gallery/istd_114-1.jpg)
+
+**117-4**: baseline F1 0.82, ours F1 1.00
+
+![ISTD 117-4](results/gallery/istd_117-4.jpg)
+
+**120-10**: baseline F1 0.10, ours F1 0.72
+
+![ISTD 120-10](results/gallery/istd_120-10.jpg)
+
+**121-13**: baseline F1 0.02, ours F1 0.13
+
+![ISTD 121-13](results/gallery/istd_121-13.jpg)
+
+**124-2**: baseline F1 0.09, ours F1 0.41
+
+![ISTD 124-2](results/gallery/istd_124-2.jpg)
+
+**127-1**: baseline F1 0.17, ours F1 0.37
+
+![ISTD 127-1](results/gallery/istd_127-1.jpg)
+
+**130-3**: baseline F1 0.67, ours F1 0.86
+
+![ISTD 130-3](results/gallery/istd_130-3.jpg)
+
+### Snow photos (all 30)
+
+**snow_00**: baseline F1 0.19, ours F1 0.51 (draft labels). Photo: [Curve and stripes.jpg](https://commons.wikimedia.org/wiki/File:Curve_and_stripes.jpg), Maasaak, CC BY-SA 4.0
+
+![snow_00](results/gallery/snow_00.jpg)
+
+**snow_01**: baseline F1 0.22, ours F1 0.40 (draft labels). Photo: [Snowy Shadows (4359488535).jpg](https://commons.wikimedia.org/wiki/File:Snowy_Shadows_(4359488535).jpg), Michael from Calgary, AB, Canada, CC BY 2.0
+
+![snow_01](results/gallery/snow_01.jpg)
+
+**snow_02**: baseline F1 0.26, ours F1 0.60 (draft labels). Photo: [Kanata Winter (3240572735).jpg](https://commons.wikimedia.org/wiki/File:Kanata_Winter_(3240572735).jpg), missbossy from Singapore, Singapore, CC BY 2.0
+
+![snow_02](results/gallery/snow_02.jpg)
+
+**snow_03**: baseline F1 0.17, ours F1 0.25 (draft labels). Photo: [Pollarded avenue of trees, snow and long shadows - geograph.org.uk - 1651017.jpg](https://commons.wikimedia.org/wiki/File:Pollarded_avenue_of_trees,_snow_and_long_shadows_-_geograph.org.uk_-_1651017.jpg), Peter Barr, CC BY-SA 2.0
+
+![snow_03](results/gallery/snow_03.jpg)
+
+**snow_04**: baseline F1 0.21, ours F1 0.29 (draft labels). Photo: [Tree shadows, Gortaclare - geograph.org.uk - 4793418.jpg](https://commons.wikimedia.org/wiki/File:Tree_shadows,_Gortaclare_-_geograph.org.uk_-_4793418.jpg), Kenneth Allen, CC BY-SA 2.0
+
+![snow_04](results/gallery/snow_04.jpg)
+
+**snow_05**: baseline F1 0.17, ours F1 0.12 (draft labels). Photo: [Tree shadows in the snow, Garvaghy - geograph.org.uk - 6389674.jpg](https://commons.wikimedia.org/wiki/File:Tree_shadows_in_the_snow,_Garvaghy_-_geograph.org.uk_-_6389674.jpg), Kenneth Allen, CC BY-SA 2.0
+
+![snow_05](results/gallery/snow_05.jpg)
+
+**snow_06**: baseline F1 0.09, ours F1 0.38 (draft labels). Photo: [Tree shadows along Augher Point Road - geograph.org.uk - 7428506.jpg](https://commons.wikimedia.org/wiki/File:Tree_shadows_along_Augher_Point_Road_-_geograph.org.uk_-_7428506.jpg), Kenneth Allen, CC BY-SA 2.0
+
+![snow_06](results/gallery/snow_06.jpg)
+
+**snow_07**: baseline F1 0.37, ours F1 0.48 (draft labels). Photo: [Shadows on the snow - geograph.org.uk - 1651063.jpg](https://commons.wikimedia.org/wiki/File:Shadows_on_the_snow_-_geograph.org.uk_-_1651063.jpg), Roger Cornfoot, CC BY-SA 2.0
+
+![snow_07](results/gallery/snow_07.jpg)
+
+**snow_08**: baseline F1 0.36, ours F1 0.48 (draft labels). Photo: [Snow and shadows (3266886793).jpg](https://commons.wikimedia.org/wiki/File:Snow_and_shadows_(3266886793).jpg), Tim Green from Bradford, CC BY 2.0
+
+![snow_08](results/gallery/snow_08.jpg)
+
+**snow_09**: baseline F1 0.20, ours F1 0.31 (draft labels). Photo: [Shadows on the snow - geograph.org.uk - 7359532.jpg](https://commons.wikimedia.org/wiki/File:Shadows_on_the_snow_-_geograph.org.uk_-_7359532.jpg), Graham Hogg, CC BY-SA 2.0
+
+![snow_09](results/gallery/snow_09.jpg)
+
+**snow_10**: baseline F1 0.46, ours F1 0.55 (draft labels). Photo: [Pinus Ponderosa Shadow 70226.JPG](https://commons.wikimedia.org/wiki/File:Pinus_Ponderosa_Shadow_70226.JPG), Wars, CC BY-SA 3.0
+
+![snow_10](results/gallery/snow_10.jpg)
+
+**snow_11**: baseline F1 0.23, ours F1 0.50 (draft labels). Photo: [010 Winter am Orankesee.jpg](https://commons.wikimedia.org/wiki/File:010_Winter_am_Orankesee.jpg), Geoprofi Lars, CC BY-SA 4.0
+
+![snow_11](results/gallery/snow_11.jpg)
+
+**snow_12**: baseline F1 0.24, ours F1 0.36 (draft labels). Photo: [Schnee am Obersee (1).jpg](https://commons.wikimedia.org/wiki/File:Schnee_am_Obersee_(1).jpg), Geoprofi Lars, CC BY-SA 4.0
+
+![snow_12](results/gallery/snow_12.jpg)
+
+**snow_13**: baseline F1 0.12, ours F1 0.27 (draft labels). Photo: [Schnee am Obersee (2).jpg](https://commons.wikimedia.org/wiki/File:Schnee_am_Obersee_(2).jpg), Geoprofi Lars, CC BY-SA 4.0
+
+![snow_13](results/gallery/snow_13.jpg)
+
+**snow_14**: baseline F1 0.23, ours F1 0.50 (draft labels). Photo: [Tree Shadows in the Snow - geograph.org.uk - 1161074.jpg](https://commons.wikimedia.org/wiki/File:Tree_Shadows_in_the_Snow_-_geograph.org.uk_-_1161074.jpg), David Lally, CC BY-SA 2.0
+
+![snow_14](results/gallery/snow_14.jpg)
+
+**snow_15**: baseline F1 0.06, ours F1 0.40 (draft labels). Photo: [Long shadows on the snow - geograph.org.uk - 1658044.jpg](https://commons.wikimedia.org/wiki/File:Long_shadows_on_the_snow_-_geograph.org.uk_-_1658044.jpg), Richard Humphrey, CC BY-SA 2.0
+
+![snow_15](results/gallery/snow_15.jpg)
+
+**snow_16**: baseline F1 0.06, ours F1 0.30 (draft labels). Photo: [Snow and shadows - geograph.org.uk - 1651052.jpg](https://commons.wikimedia.org/wiki/File:Snow_and_shadows_-_geograph.org.uk_-_1651052.jpg), Dave Croker, CC BY-SA 2.0
+
+![snow_16](results/gallery/snow_16.jpg)
+
+**snow_17**: baseline F1 0.00, ours F1 0.06 (draft labels). Photo: [Snow shadows , , Snöskuggor - Flickr - northofsweden.jpg](https://commons.wikimedia.org/wiki/File:Snow_shadows_,_,_Sn%C3%B6skuggor_-_Flickr_-_northofsweden.jpg), northofsweden from Sweden, CC BY 2.0
+
+![snow_17](results/gallery/snow_17.jpg)
+
+**snow_18**: baseline F1 0.27, ours F1 0.63 (draft labels). Photo: [Tree shadow on snow in Tuntorp.jpg](https://commons.wikimedia.org/wiki/File:Tree_shadow_on_snow_in_Tuntorp.jpg), W.carter, CC BY-SA 4.0
+
+![snow_18](results/gallery/snow_18.jpg)
+
+**snow_19**: baseline F1 0.21, ours F1 0.45 (draft labels). Photo: [Shadows on the snow - geograph.org.uk - 5672535.jpg](https://commons.wikimedia.org/wiki/File:Shadows_on_the_snow_-_geograph.org.uk_-_5672535.jpg), Richard Sutcliffe, CC BY-SA 2.0
+
+![snow_19](results/gallery/snow_19.jpg)
+
+**snow_20**: baseline F1 0.23, ours F1 0.41 (draft labels). Photo: [Tree shadows on the snow near to Brickkiln Cottage - geograph.org.uk - 6061275.jpg](https://commons.wikimedia.org/wiki/File:Tree_shadows_on_the_snow_near_to_Brickkiln_Cottage_-_geograph.org.uk_-_6061275.jpg), Peter S, CC BY-SA 2.0
+
+![snow_20](results/gallery/snow_20.jpg)
+
+**snow_21**: baseline F1 0.14, ours F1 0.35 (draft labels). Photo: [Snow shadows, Trent Park, London N14 - geograph.org.uk - 1790851.jpg](https://commons.wikimedia.org/wiki/File:Snow_shadows,_Trent_Park,_London_N14_-_geograph.org.uk_-_1790851.jpg), Christine Matthews, CC BY-SA 2.0
+
+![snow_21](results/gallery/snow_21.jpg)
+
+**snow_22**: baseline F1 0.16, ours F1 0.20 (draft labels). Photo: [Long shadows and weasel tracks near a lone tree.jpg](https://commons.wikimedia.org/wiki/File:Long_shadows_and_weasel_tracks_near_a_lone_tree.jpg), Jacob W. Frank, Public domain
+
+![snow_22](results/gallery/snow_22.jpg)
+
+**snow_23**: baseline F1 0.56, ours F1 0.91 (draft labels). Photo: [Gillie in the snow (383804324).jpg](https://commons.wikimedia.org/wiki/File:Gillie_in_the_snow_(383804324).jpg), Dwight Sipler from Stow, MA, USA, CC BY 2.0
+
+![snow_23](results/gallery/snow_23.jpg)
+
+**snow_24**: baseline F1 0.17, ours F1 0.72 (draft labels). Photo: [Skyggemennesker i snøen.JPG](https://commons.wikimedia.org/wiki/File:Skyggemennesker_i_sn%C3%B8en.JPG), Øyvind Holmstad, CC BY-SA 3.0
+
+![snow_24](results/gallery/snow_24.jpg)
+
+**snow_25**: baseline F1 0.33, ours F1 0.80 (draft labels). Photo: [Lobster lift shadows.jpg](https://commons.wikimedia.org/wiki/File:Lobster_lift_shadows.jpg), internets_dairy, CC BY 2.0
+
+![snow_25](results/gallery/snow_25.jpg)
+
+**snow_26**: baseline F1 0.01, ours F1 0.01 (draft labels). Photo: [Gaudi's Staircase (16007531644).jpg](https://commons.wikimedia.org/wiki/File:Gaudi%27s_Staircase_(16007531644).jpg), Michael Pardo from Niagara, Canada, CC BY 2.0
+
+![snow_26](results/gallery/snow_26.jpg)
+
+**snow_27**: baseline F1 0.07, ours F1 0.33 (draft labels). Photo: [Sunny day in winter ,.jpg](https://commons.wikimedia.org/wiki/File:Sunny_day_in_winter_,.jpg), Vitold Muratov, CC BY-SA 4.0
+
+![snow_27](results/gallery/snow_27.jpg)
+
+**snow_28**: baseline F1 0.18, ours F1 0.47 (draft labels). Photo: [Тень от куста.jpg](https://commons.wikimedia.org/wiki/File:%D0%A2%D0%B5%D0%BD%D1%8C_%D0%BE%D1%82_%D0%BA%D1%83%D1%81%D1%82%D0%B0.jpg), Vitaliy VK, CC BY-SA 4.0
+
+![snow_28](results/gallery/snow_28.jpg)
+
+**snow_29**: baseline F1 0.59, ours F1 0.65 (draft labels). Photo: [Следы на снегу 04.jpg](https://commons.wikimedia.org/wiki/File:%D0%A1%D0%BB%D0%B5%D0%B4%D1%8B_%D0%BD%D0%B0_%D1%81%D0%BD%D0%B5%D0%B3%D1%83_04.jpg), Vitaliy VK, CC BY-SA 4.0
+
+![snow_29](results/gallery/snow_29.jpg)
+
+### Dry-road photos (no labels, qualitative only)
+
+**dry_00**. Photo: [Shadows on snowy road, Barton - geograph.org.uk - 1692986.jpg](https://commons.wikimedia.org/wiki/File:Shadows_on_snowy_road,_Barton_-_geograph.org.uk_-_1692986.jpg), Derek Harper, CC BY-SA 2.0
+
+![dry_00](results/gallery/dry_00.jpg)
+
+**dry_01**. Photo: [The Avenue, shadows and winter branches - geograph.org.uk - 6402137.jpg](https://commons.wikimedia.org/wiki/File:The_Avenue,_shadows_and_winter_branches_-_geograph.org.uk_-_6402137.jpg), John Sutton, CC BY-SA 2.0
+
+![dry_01](results/gallery/dry_01.jpg)
+
+**dry_02**. Photo: [Lichfield Road, a tree's shadow - geograph.org.uk - 7951928.jpg](https://commons.wikimedia.org/wiki/File:Lichfield_Road,_a_tree%27s_shadow_-_geograph.org.uk_-_7951928.jpg), John Sutton, CC BY-SA 2.0
+
+![dry_02](results/gallery/dry_02.jpg)
+
+---
+
+## 5. Methods (`--method`)
 
 | name | what it does |
 |---|---|
@@ -135,7 +333,7 @@ preliminary.
 | `full` | `blue` AND `msblur`, per pixel |
 | `full_vote` | `full` + majority vote per contour (contours cut at junctions) |
 
-## 5. Code
+## 6. Code
 
 - `shadow/edges.py` - Gaussian blur + Canny + gradient direction
 - `shadow/cues.py` - cross-edge color, transition width, multi-scale blur, texture contrast
@@ -144,10 +342,11 @@ preliminary.
 - `tune.py` - shadow direction + threshold grid search on the training split
 - `eval.py` - all methods on a folder of images + masks -> CSV
 - `run.py` - overlays for any image or folder
-- `make_figures.py` - every figure in this README (needs matplotlib)
+- `make_figures.py` - summary figures in `results/figures/` (needs matplotlib)
+- `make_gallery.py` - one side-by-side result image per photo in `results/gallery/`
 - `tools/draft_snow_masks.py`, `tools/label_masks.py` - draft snow labels + hand-labeling tool
 
-## 6. Setup and reproduction (macOS)
+## 7. Setup and reproduction (macOS)
 
 ```bash
 cd snowy-road-detector
@@ -177,6 +376,7 @@ python tune.py --images data/ISTD/train/train_A --masks data/ISTD/train/train_B
 python eval.py --images data/ISTD/test/test_A --masks data/ISTD/test/test_B --out results/eval_istd_test.csv
 python eval.py --images data/snow_web --masks data/snow_masks_draft --out results/eval_snow_draft.csv
 python make_figures.py
+python make_gallery.py
 ```
 
 Hand-correcting the snow labels (saves to `data/snow_masks/`):

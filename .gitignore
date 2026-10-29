@@ -5,6 +5,7 @@ results/*
 !results/*.csv
 !results/params.json
 !results/figures/
+!results/gallery/
 data/ISTD/
 data/SBU/
 data/synthetic/
