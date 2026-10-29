@@ -13,7 +13,7 @@ import os
 
 import cv2
 
-from shadow.classify import METHODS, OBJECT, compute, label_map
+from shadow.classify import METHODS, OBJECT, compute, label_map, load_params
 from shadow.evaluate import count_shadow_lines, counts, gt_shadow_band, hough_lines, metrics
 
 EXTS = (".png", ".jpg", ".jpeg", ".bmp", ".tif")
@@ -34,7 +34,9 @@ def main():
     ap.add_argument("--limit", type=int, default=0, help="only use the first N images")
     ap.add_argument("--tol", type=int, default=3, help="GT border tolerance in px")
     ap.add_argument("--out", default="results/eval.csv")
+    ap.add_argument("--params", default="results/params.json")
     args = ap.parse_args()
+    load_params(args.params)
 
     files = sorted(f for f in os.listdir(args.images) if f.lower().endswith(EXTS))
     if args.limit:
@@ -49,9 +51,10 @@ def main():
         img = cv2.imread(os.path.join(args.images, f))
         if mp is None or img is None:
             continue
-        mask = cv2.imread(mp, cv2.IMREAD_GRAYSCALE)
-        band = gt_shadow_band(mask, args.tol)
         d = compute(img)
+        mask = cv2.imread(mp, cv2.IMREAD_GRAYSCALE)
+        mask = cv2.resize(mask, d["edges"].shape[::-1], interpolation=cv2.INTER_NEAREST)
+        band = gt_shadow_band(mask, args.tol)
         for m in METHODS:
             lab = label_map(d, m)
             for k, v in counts(lab, band).items():

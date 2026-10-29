@@ -11,7 +11,7 @@ import os
 
 import cv2
 
-from shadow.classify import METHODS, OBJECT, compute, label_map, overlay
+from shadow.classify import METHODS, OBJECT, compute, label_map, load_params, overlay
 
 EXTS = (".png", ".jpg", ".jpeg", ".bmp", ".tif")
 
@@ -21,7 +21,9 @@ def main():
     ap.add_argument("input", help="image file or folder")
     ap.add_argument("--method", default="all", choices=METHODS + ["all"])
     ap.add_argument("--out", default="results")
+    ap.add_argument("--params", default="results/params.json")
     args = ap.parse_args()
+    load_params(args.params)
 
     if os.path.isdir(args.input):
         files = sorted(os.path.join(args.input, f) for f in os.listdir(args.input)
@@ -40,7 +42,7 @@ def main():
         d = compute(img)
         for m in methods:
             lab = label_map(d, m)
-            cv2.imwrite(os.path.join(args.out, f"{name}_{m}.png"), overlay(img, lab))
+            cv2.imwrite(os.path.join(args.out, f"{name}_{m}.png"), overlay(d["img"], lab))
             cv2.imwrite(os.path.join(args.out, f"{name}_{m}_cleaned.png"), (lab == OBJECT).astype("uint8") * 255)
         print("done:", path)
     print("saved to", args.out)

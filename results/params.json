@@ -1,0 +1,44 @@
+{
+  "SHADOW_DIR": [
+    -0.5259925723075867,
+    0.8504891991615295
+  ],
+  "DARK_T": 0.8,
+  "BLUE_T": 0.05,
+  "BLUR_T": 0.4,
+  "CHROMA_T": 0.3,
+  "WIDTH_T": 2,
+  "VOTE_T": 0.6,
+  "per_method": {
+    "color": {
+      "DARK_T": 0.6,
+      "CHROMA_T": 0.3,
+      "f1": 0.348
+    },
+    "width": {
+      "DARK_T": 0.6,
+      "WIDTH_T": 2,
+      "f1": 0.361
+    },
+    "blue": {
+      "DARK_T": 0.7,
+      "BLUE_T": 0.08,
+      "f1": 0.523
+    },
+    "msblur": {
+      "DARK_T": 0.7,
+      "BLUR_T": 0.8,
+      "f1": 0.477
+    },
+    "full": {
+      "DARK_T": 0.8,
+      "BLUE_T": 0.05,
+      "BLUR_T": 0.4,
+      "f1": 0.593
+    },
+    "full_vote": {
+      "VOTE_T": 0.6,
+      "f1": 0.596
+    }
+  }
+}

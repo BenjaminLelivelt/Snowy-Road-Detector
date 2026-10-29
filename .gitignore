@@ -1,7 +1,13 @@
 .venv/
 __pycache__/
-results/
+.tmp/
+results/*
+!results/*.csv
+!results/params.json
+!results/figures/
 data/ISTD/
 data/SBU/
 data/synthetic/
+data/commons_cand/
+data/commons_candidates.json
 .DS_Store
