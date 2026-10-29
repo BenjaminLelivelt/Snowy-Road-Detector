@@ -6,6 +6,7 @@ results/*
 !results/params.json
 !results/figures/
 !results/gallery/
+!results/lanes/
 data/ISTD/
 data/SBU/
 data/synthetic/

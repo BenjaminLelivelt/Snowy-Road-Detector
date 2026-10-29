@@ -18,6 +18,45 @@ More: summary figures in §3, and the result image for **every** photo in §4.
 
 ---
 
+## 0. Where this fits: the main goal is lanes on snowy roads
+
+The end goal is **lane detection on snowy roads**. This mid-term work is the **middle step**:
+
+1. **Photo -> edges** (Gaussian + Canny). Done.
+2. **Remove shadow edges.** On a sunny winter road, low sun on white snow makes long, sharp, blue shadows of trees, poles and fences. A lane detector fits straight lines to edges and follows those shadows instead of the road. **This step is what we built and measured** (ISTD F1 0.38 -> 0.66).
+3. **Lane lines on snowy roads** (Hough on the cleaned edges). Planned for the final report.
+
+**What changed from the proposal:** the goal of step 2 is the same, but both proposed cues failed on real photos. "Same color on both sides" became "the shadow side turns bluer", and "wide edge" became "blur measured at two scales".
+
+### What happens if we try the main goal now
+
+We ran a standard lane finder on the 13 snowy-road photos: Canny, keep the lower 55% of the image, probabilistic Hough, drop near-horizontal lines. We ran it on raw edges and again after our shadow removal (`python lane_demo.py`).
+
+| | Lines found | Lines lying on shadows |
+|---|---|---|
+| Raw Canny + Hough | 214 | 47 (22%) |
+| After removing shadow edges | 162 | 26 (16%) |
+
+Shadow lines drop 45% (91% on ISTD), but **lane detection on snowy roads does not work yet**. Almost none of the remaining lines are the road or lane boundary.
+
+Each row: input | Hough on raw edges | Hough after shadow removal. Red = line on a shadow, green = other line, cyan = top of the road region.
+
+![Lane finding on snowy roads](results/figures/lanes_overview.jpg)
+
+**What fails, and why:**
+
+1. **No lane markings to find.** Snow covers the paint, and many of these roads never had any. The lane must come from road edges or tire tracks.
+2. **Hough finds every straight line, not just the road.** Fences, railings, snowbanks and branches give the strongest lines; nothing tells the detector which line is the road.
+3. **Some shadows survive.** Fence and railing shadows cast from close by are almost as sharp as real edges, so the blur cue misses them.
+4. **Snow texture and tire ruts** produce many short edges that Hough strings into lines.
+5. **The real road edge is often too soft** to be a Canny edge at all (last row: after shadow removal, nothing is left).
+
+**So step 3 needs a road model, not just lines:** a road region (segmentation), lines that converge at one vanishing point, and tire tracks or snowbank edges as lane evidence. Shadow removal stays as the cleaning step in front of it.
+
+All 13 road photos are in §4 under "Lane finding on snowy roads".
+
+---
+
 ## 1. What is done
 
 | Proposal item | Status | Where |
@@ -413,6 +452,62 @@ Green = kept as object edge, red = labeled shadow edge. F1 = shadow-edge F1 for 
 
 ---
 
+### Lane finding on snowy roads (all 13 road photos)
+
+Input | Hough on raw edges | Hough after shadow removal. Numbers per image are in `results/lanes/lanes.csv`.
+
+**snow_00**: raw 10 lines (3 on shadows) -> cleaned 0 lines (0 on shadows)
+
+![snow_00 lanes](results/lanes/snow_00.jpg)
+
+**snow_01**: raw 0 lines (0 on shadows) -> cleaned 0 lines (0 on shadows)
+
+![snow_01 lanes](results/lanes/snow_01.jpg)
+
+**snow_02**: raw 22 lines (5 on shadows) -> cleaned 13 lines (2 on shadows)
+
+![snow_02 lanes](results/lanes/snow_02.jpg)
+
+**snow_03**: raw 9 lines (2 on shadows) -> cleaned 8 lines (1 on shadows)
+
+![snow_03 lanes](results/lanes/snow_03.jpg)
+
+**snow_04**: raw 8 lines (2 on shadows) -> cleaned 5 lines (0 on shadows)
+
+![snow_04 lanes](results/lanes/snow_04.jpg)
+
+**snow_05**: raw 2 lines (0 on shadows) -> cleaned 4 lines (0 on shadows)
+
+![snow_05 lanes](results/lanes/snow_05.jpg)
+
+**snow_06**: raw 20 lines (4 on shadows) -> cleaned 11 lines (1 on shadows)
+
+![snow_06 lanes](results/lanes/snow_06.jpg)
+
+**snow_07**: raw 14 lines (6 on shadows) -> cleaned 12 lines (4 on shadows)
+
+![snow_07 lanes](results/lanes/snow_07.jpg)
+
+**snow_08**: raw 7 lines (2 on shadows) -> cleaned 5 lines (1 on shadows)
+
+![snow_08 lanes](results/lanes/snow_08.jpg)
+
+**snow_09**: raw 30 lines (12 on shadows) -> cleaned 31 lines (10 on shadows)
+
+![snow_09 lanes](results/lanes/snow_09.jpg)
+
+**snow_11**: raw 2 lines (0 on shadows) -> cleaned 0 lines (0 on shadows)
+
+![snow_11 lanes](results/lanes/snow_11.jpg)
+
+**snow_12**: raw 21 lines (8 on shadows) -> cleaned 14 lines (4 on shadows)
+
+![snow_12 lanes](results/lanes/snow_12.jpg)
+
+**snow_13**: raw 69 lines (3 on shadows) -> cleaned 59 lines (3 on shadows)
+
+![snow_13 lanes](results/lanes/snow_13.jpg)
+
 ## 5. Methods (`--method`)
 
 | name | what it does |
@@ -436,6 +531,7 @@ Green = kept as object edge, red = labeled shadow edge. F1 = shadow-edge F1 for 
 - `run.py` - overlays for any image or folder
 - `make_figures.py` - summary figures in `results/figures/` (needs matplotlib)
 - `make_gallery.py` - one side-by-side result image per photo in `results/gallery/`
+- `lane_demo.py` - step-3 preview: lane/road line finding on snowy roads, raw vs. shadow-removed
 - `tools/draft_snow_masks.py`, `tools/label_masks.py` - draft snow labels + hand-labeling tool
 
 ## 7. Setup and reproduction (macOS)
@@ -469,6 +565,7 @@ python eval.py --images data/ISTD/test/test_A --masks data/ISTD/test/test_B --ou
 python eval.py --images data/snow_web --masks data/snow_masks_draft --out results/eval_snow_draft.csv
 python make_figures.py
 python make_gallery.py
+python lane_demo.py
 ```
 
 Hand-correcting the snow labels (saves to `data/snow_masks/`):
