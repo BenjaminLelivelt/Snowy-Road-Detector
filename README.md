@@ -127,6 +127,98 @@ preliminary.
 
 ---
 
+### Every cue we measured (ISTD training subset, 133 images, 2.75 M edge pixels)
+
+AUC = how well one cue alone separates shadow-border edge pixels from all other edge
+pixels (0.5 = useless, 1.0 = perfect). "Direction" says which way a shadow edge points.
+
+| Cue | AUC | Shadow edges (median) | Other edges (median) | Used? |
+|---|---|---|---|---|
+| Multi-scale blur estimate (px) | **0.85** | 1.02 | 0.00 | yes (`msblur`) |
+| Blue shift along sun->sky direction | **0.81** | 0.13 | 0.00 | yes (`blue`) |
+| log(B) - log(R) change across edge | 0.81 | 0.18 | 0.00 | folded into blue shift |
+| Brightness ratio dark/bright (lower = shadow) | 0.78 | 0.54 | 0.81 | yes (all methods) |
+| Chromaticity difference (proposal: small = shadow) | 0.76 **reversed** | 0.077 | 0.020 | baseline only |
+| Spread of per-channel log ratios | 0.75 reversed | 0.087 | 0.023 | no |
+| Gradient magnitude | 0.65 | 119 | 87 | no |
+| 10-90% transition width (px) | 0.55 | 5 | 5 | baseline only (`width`) |
+| Texture contrast match (std/mean on both sides) | 0.52 | 0.56 | 0.50 | no, useless |
+
+"Reversed" = the cue works, but in the opposite direction from the proposal's
+assumption: shadow edges change color MORE, not less (they turn blue).
+
+### Tuned thresholds (`results/params.json`, from the training split only)
+
+| Method | Thresholds | Train F1 |
+|---|---|---|
+| `color` | dark ratio < 0.6, chroma diff < 0.3 | 0.348 |
+| `width` | dark ratio < 0.6, width > 2 px | 0.361 |
+| `blue` | dark ratio < 0.7, blue shift > 0.08 | 0.523 |
+| `msblur` | dark ratio < 0.7, blur > 0.8 px | 0.477 |
+| `full` | dark ratio < 0.8, blue shift > 0.05, blur > 0.4 px | 0.593 |
+| `full_vote` | `full` + contour is shadow if > 60% of its pixels vote shadow | 0.596 |
+| darker-only reference (no color/shape cue) | dark ratio < 0.6 | 0.336 |
+
+Shadow direction in (log R/G, log B/G): (-0.526, 0.850), estimated from training
+shadow borders. Note the `color` baseline's best chroma threshold (0.3) is so loose
+that it is almost the "darker-only" test: the "same color" check adds only +0.012 F1.
+
+### Other experiments (kept out of the final method)
+
+| Experiment | Result | Decision |
+|---|---|---|
+| Voting without cutting contours at junctions | train F1 0.555 (vs 0.596 with cuts) | keep the cuts |
+| Voting on the mean of a soft cue score per contour | train F1 0.51-0.56 | dropped |
+| Vote threshold 0.3 / 0.5 / 0.6 | train F1 0.592 / 0.594 / 0.596 | 0.6 |
+| Color samples 6 px from the edge instead of 4 | ISTD train 0.597, snow 0.439 | keep 4 px |
+| Color samples 8 px from the edge | ISTD train 0.585, snow 0.414 | keep 4 px |
+| Processing snow photos at full size (800-960 px) | many penumbras too wide for 4 px sampling | fixed: resize everything to 640 px |
+
+### Synthetic sanity check (`make_synthetic.py`, 6 images)
+
+| Method | P | R | F1 | Object edges removed |
+|---|---|---|---|---|
+| color | 0.94 | 0.99 | 0.97 | 12.1% |
+| width | 0.78 | 0.99 | 0.87 | 57.9% |
+| blue | 0.74 | 0.63 | 0.68 | 46.0% |
+| msblur | 1.00 | 1.00 | 1.00 | 0.1% |
+| full | 0.78 | 0.94 | 0.85 | 55.1% |
+| full_vote | 0.78 | 0.98 | 0.87 | 55.3% |
+
+The synthetic images use gray shadows and random-colored boxes, so the color-only
+baseline looks almost perfect there, while on real photos it is the worst method.
+Lesson: the synthetic set was built on the same wrong assumption as the baseline;
+we now only report real data.
+
+### How we got the data
+
+1. ISTD: the official Google Drive link cannot be scripted, so we downloaded the same
+   files from a Hugging Face mirror (`CK234/tmp_ISTD`) in the browser: all 540 test
+   images + masks and every 10th of the 1,330 training images + masks. Counts match
+   the official release.
+2. Snow: searched Wikimedia Commons ("shadows on snow", "snowy road shadows", tree
+   shadows, Madison snow, ...), downloaded 197 candidates, looked at contact sheets and
+   kept 30 snow scenes with clear cast shadows + 3 dry roads. Credits: `data/CREDITS.md`.
+3. Snow draft labels: `tools/draft_snow_masks.py` (brightness 20-85% of sunlit snow and
+   0.12 bluer in log(B/R), morphology, sky blobs removed). Visually checked; known errors:
+   blue roofs and sky, missed gray shadows. To be hand-corrected.
+
+### Questions for the instructor / TA
+
+1. The shadow direction and four thresholds are fit on 133 ISTD training images (test set
+   never touched). Does that still count as "training-free", or should the direction come
+   from physics (sun vs. sky color temperature) or be estimated per image?
+2. Our draft snow labels use a blue-shift rule, which favors our own blue cue. Is hand
+   correction enough, or should someone who has not seen the method label from scratch?
+3. Per-edge-pixel scoring with a 3 px band: OK, or would you prefer per-contour scores or
+   a precision-recall curve?
+4. Contour voting gives only +0.004 F1. Worth more time, or focus on snow problems?
+5. Should we also run one published deep shadow detector as an upper-bound reference?
+6. If there is no sunny snow in Madison before late November, are Commons snow photos OK
+   as the main snow test, with our own campus photos on dry pavement?
+
+---
+
 ## 4. All results (every image)
 
 Every photo we ran, side by side: **input | color-only baseline | ours (full + contour vote)**.
